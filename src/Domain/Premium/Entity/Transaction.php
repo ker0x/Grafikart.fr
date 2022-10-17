@@ -3,6 +3,7 @@
 namespace App\Domain\Premium\Entity;
 
 use App\Domain\Auth\User;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Intl\Countries;
 
@@ -14,11 +15,9 @@ class Transaction
     final public const PAYPAL = 'paypal';
     final public const STRIPE = 'stripe';
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**
@@ -38,9 +37,7 @@ class Transaction
      */
     private float $tax;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $method;
 
     /**
@@ -53,9 +50,7 @@ class Transaction
      */
     private bool $refunded = false;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     /**

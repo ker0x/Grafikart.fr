@@ -2,6 +2,7 @@
 
 namespace App\Domain\Course\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,11 +10,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CursusCategory
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**

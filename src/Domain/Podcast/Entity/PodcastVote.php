@@ -22,9 +22,7 @@ class PodcastVote
      */
     private float $weight = 1;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function __construct(

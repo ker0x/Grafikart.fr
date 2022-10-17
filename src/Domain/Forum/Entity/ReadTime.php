@@ -3,6 +3,7 @@
 namespace App\Domain\Forum\Entity;
 
 use App\Domain\Auth\User;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,11 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ReadTime
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**
@@ -30,9 +29,7 @@ class ReadTime
      */
     private User $owner;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $readAt;
 
     /**

@@ -5,52 +5,43 @@ namespace App\Domain\Revision;
 use App\Domain\Application\Entity\Content;
 use App\Domain\Auth\User;
 use App\Domain\Revision\Constraint\NotSameContent;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\Revision\RevisionRepository")
  * @NotSameContent()
  */
+#[ORM\Entity(repositoryClass: RevisionRepository::class)]
 class Revision
 {
     final public const PENDING = 0;
     final public const ACCEPTED = 1;
     final public const REJECTED = -1;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Auth\User")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-     */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private User $author;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Application\Entity\Content")
-     * @ORM\JoinColumn(nullable=false, onDelete="CASCADE")
-     */
+    #[ORM\ManyToOne(targetEntity: Content::class)]
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private Content $target;
 
     /**
-     * @ORM\Column(type="text")
      * @Assert\NotBlank()
      */
+    #[ORM\Column(type: Types::TEXT)]
     private string $content = '';
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    /**
-     * @ORM\Column(type="integer", length=1, options={"default":"0"})
-     */
+    #[ORM\Column(type: Types::INTEGER, length: 1, options: ['default' => 0])]
     private int $status = self::PENDING;
 
     public function getId(): ?int

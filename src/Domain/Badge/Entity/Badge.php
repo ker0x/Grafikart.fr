@@ -2,33 +2,29 @@
 
 namespace App\Domain\Badge\Entity;
 
+use App\Domain\Badge\Repository\BadgeRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
- * @ORM\Entity(repositoryClass="App\Domain\Badge\Repository\BadgeRepository")
  * @Vich\Uploadable()
  */
+#[ORM\Entity(repositoryClass: BadgeRepository::class)]
 class Badge
 {
     final public const REQUEST_UNLOCKABLE = ['gamer', 'lochness'];
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer", options={"default": 0})
-     */
+    #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
     private int $position = 0;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $image = null;
 
     /**
@@ -36,36 +32,26 @@ class Badge
      */
     private ?File $imageFile = null;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default":0})
-     */
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => 0])]
     private bool $unlockable = false;
 
-    /**
-     * @ORM\Column(type="datetime", nullable=false)
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $updatedAt;
 
     public function __construct(
-        /**
-         * @ORM\Column(type="string", length=255, nullable=false)
-         */
+        #[ORM\Column(type: Types::STRING, length: 255)]
         private string $name = '',
-        /**
-         * @ORM\Column(type="string", length=255, nullable=false)
-         */
+
+        #[ORM\Column(type: Types::STRING, length: 255)]
         private string $description = '',
-        /**
-         * @ORM\Column(type="string", length=255, nullable=false)
-         */
+
+        #[ORM\Column(type: Types::STRING, length: 255)]
         private string $action = '',
-        /**
-         * @ORM\Column(type="integer", options={"default": 0})
-         */
+
+        #[ORM\Column(type: Types::INTEGER, options: ['default' => 0])]
         private int $actionCount = 0,
-        /**
-         * @ORM\Column(type="string", length=255, options={"default": "grey"})
-         */
+
+        #[ORM\Column(type: Types::STRING, length: 255, options: ['default' => 'grey'])]
         private string $theme = 'grey'
     ) {
         $this->updatedAt = new \DateTimeImmutable();

@@ -2,13 +2,12 @@
 
 namespace App\Infrastructure\Spam;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 trait SpamTrait
 {
-    /**
-     * @ORM\Column(type="boolean", options={"default" : 1})
-     */
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => true])]
     private bool $spam = false;
 
     public function isSpam(): bool

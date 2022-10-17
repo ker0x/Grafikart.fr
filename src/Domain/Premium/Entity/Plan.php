@@ -3,6 +3,7 @@
 namespace App\Domain\Premium\Entity;
 
 use App\Infrastructure\Payment\Stripe\StripeEntity;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -11,11 +12,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Plan
 {
     use StripeEntity;
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**

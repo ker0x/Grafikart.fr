@@ -2,6 +2,7 @@
 
 namespace App\Domain\Contact;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use geertw\IpAnonymizer\IpAnonymizer;
 
@@ -12,11 +13,9 @@ use geertw\IpAnonymizer\IpAnonymizer;
  */
 class ContactRequest
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**
@@ -24,9 +23,7 @@ class ContactRequest
      */
     private string $ip = '';
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTime $createdAt;
 
     public function __construct()

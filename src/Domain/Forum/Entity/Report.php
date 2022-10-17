@@ -4,6 +4,7 @@ namespace App\Domain\Forum\Entity;
 
 use ApiPlatform\Core\Annotation\ApiProperty;
 use App\Domain\Auth\User;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -19,12 +20,12 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Report
 {
     /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
      * @ApiProperty(identifier=true)
      * @Groups({"read:report"})
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**
@@ -55,9 +56,7 @@ class Report
      */
     private string $reason;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function getId(): ?int

@@ -3,15 +3,15 @@
 namespace App\Domain\Course\Entity;
 
 use App\Domain\Application\Entity\Content;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 trait ChapterableTrait
 {
     /**
-     * @ORM\Column(type="json")
-     *
      * @return array{title: string, content: int[]}[]
      */
+    #[ORM\Column(type: Types::JSON)]
     protected array $chapters = [];
 
     public function setRawChapters(array $chapters): self

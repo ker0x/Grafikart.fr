@@ -4,6 +4,7 @@ namespace App\Domain\Premium\Entity;
 
 use App\Domain\Auth\User;
 use App\Infrastructure\Payment\Stripe\StripeEntity;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -15,11 +16,9 @@ class Subscription
     final public const ACTIVE = 1;
     final public const INACTIVE = 0;
 
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
     /**
@@ -27,9 +26,7 @@ class Subscription
      */
     private int $state = self::INACTIVE;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $nextPayment;
 
     /**
@@ -44,9 +41,7 @@ class Subscription
      */
     private User $user;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     public function getId(): ?int

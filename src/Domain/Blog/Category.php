@@ -4,41 +4,31 @@ namespace App\Domain\Blog;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity()
- * @ORM\Table("blog_category")
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'blog_category')]
 class Category
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name = '';
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $slug = '';
 
-    /**
-     * @ORM\Column(type="integer", options={"unsigned": true})
-     */
+    #[ORM\Column(type: Types::INTEGER, options: ['unsigned' => true])]
     private int $postsCount = 0;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Domain\Blog\Post", mappedBy="category")
-     *
      * @var Collection<int,Post>
      */
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Post::class)]
     private Collection $posts;
 
     public function __construct()
@@ -95,7 +85,7 @@ class Category
     }
 
     /**
-     * @return Collection<int,Post>|Post[]
+     * @return Collection<int,Post
      */
     public function getPosts(): Collection
     {

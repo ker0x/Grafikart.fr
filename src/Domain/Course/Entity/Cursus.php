@@ -3,26 +3,21 @@
 namespace App\Domain\Course\Entity;
 
 use App\Domain\Application\Entity\Content;
+use App\Domain\Course\Repository\CursusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Domain\Course\Repository\CursusRepository")
- */
+#[ORM\Entity(repositoryClass: CursusRepository::class)]
 class Cursus extends Content
 {
     use ChapterableTrait;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Content::class)
-     * @ORM\JoinTable(name="cursus_modules")
-     */
+    #[ORM\ManyToMany(targetEntity: Content::class)]
+    #[ORM\JoinTable(name: 'cursus_modules')]
     private Collection $modules;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=CursusCategory::class)
-     */
+    #[ORM\ManyToOne(targetEntity: CursusCategory::class)]
     private ?CursusCategory $category = null;
 
     public function __construct()

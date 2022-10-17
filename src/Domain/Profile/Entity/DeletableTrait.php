@@ -2,13 +2,12 @@
 
 namespace App\Domain\Profile\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 trait DeletableTrait
 {
-    /**
-     * @ORM\Column(type="datetime_immutable", nullable=true)
-     */
+    #[ORM\Column(type: Types::DATETIME_IMMUTABLE, nullable: true)]
     private ?\DateTimeImmutable $deleteAt = null;
 
     public function getDeleteAt(): ?\DateTimeImmutable

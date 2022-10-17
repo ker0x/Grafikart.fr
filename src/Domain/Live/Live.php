@@ -3,6 +3,7 @@
 namespace App\Domain\Live;
 
 use App\Infrastructure\Uploader\RemoteFile;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Google_Service_YouTube_Thumbnail;
 use Symfony\Component\HttpFoundation\File\File;
@@ -14,16 +15,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Live
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private int $id;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private string $name;
 
     /**
@@ -41,9 +38,7 @@ class Live
      */
     private int $duration = 0;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private \DateTimeInterface $createdAt;
 
     /**

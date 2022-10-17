@@ -2,84 +2,67 @@
 
 namespace App\Domain\Application\Entity;
 
+use App\Domain\Application\Repository\ContentRepository;
 use App\Domain\Attachment\Attachment;
 use App\Domain\Auth\User;
+use App\Domain\Blog\Post;
 use App\Domain\Course\Entity\Course;
+use App\Domain\Course\Entity\Cursus;
 use App\Domain\Course\Entity\Formation;
 use App\Domain\Course\Entity\Technology;
 use App\Domain\Course\Entity\TechnologyUsage;
 use App\Http\Twig\CacheExtension\CacheableInterface;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Entity(repositoryClass="App\Domain\Application\Repository\ContentRepository")
- * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="type", type="string")
- * @ORM\DiscriminatorMap({
- *     "course" = "App\Domain\Course\Entity\Course",
- *     "formation" = "App\Domain\Course\Entity\Formation",
- *     "post" = "App\Domain\Blog\Post",
- *     "cursus" = "App\Domain\Course\Entity\Cursus",
- * })
- */
+#[ORM\Entity(repositoryClass: ContentRepository::class)]
+#[ORM\InheritanceType('JOINED')]
+#[ORM\DiscriminatorColumn(name: 'type', type: Types::STRING)]
+#[ORM\DiscriminatorMap([
+    'course' => Course::class,
+    'formation' => Formation::class,
+    'post' => Post::class,
+    'cursus' => Cursus::class,
+])]
 abstract class Content implements CacheableInterface
 {
-    /**
-     * @ORM\Id()
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $title = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255)]
     private ?string $slug = null;
 
-    /**
-     * @ORM\Column(type="text")
-     */
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $content = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $createdAt = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $updated_at = null;
 
-    /**
-     * @ORM\Column(type="boolean", options={"default": 0})
-     */
+    #[ORM\Column(type: Types::BOOLEAN, options: ['default' => false])]
     private bool $online = false;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Attachment\Attachment", cascade={"persist"})
-     * @ORM\JoinColumn(name="attachment_id", referencedColumnName="id")
-     */
+    #[ORM\ManyToOne(targetEntity: Attachment::class, cascade: ['persist'])]
+    #[ORM\JoinColumn(name: 'attachment_id', referencedColumnName: 'id')]
     private ?Attachment $image = null;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Domain\Auth\User")
-     * @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     */
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private ?User $author = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Domain\Course\Entity\TechnologyUsage", mappedBy="content", cascade={"persist"})
-     *
      * @var Collection<int, TechnologyUsage>
      */
+    #[ORM\OneToMany(mappedBy: 'content', targetEntity: TechnologyUsage::class, cascade: ['persist'])]
     private Collection $technologyUsages;
 
     public function __construct()
@@ -93,7 +76,7 @@ abstract class Content implements CacheableInterface
     }
 
     /**
-     * @param int $id
+     * @param ?int $id
      *
      * @return $this
      */
@@ -110,7 +93,7 @@ abstract class Content implements CacheableInterface
     }
 
     /**
-     * @param string $title
+     * @param ?string $title
      *
      * @return $this
      */
@@ -127,7 +110,7 @@ abstract class Content implements CacheableInterface
     }
 
     /**
-     * @param string $slug
+     * @param ?string $slug
      *
      * @return $this
      */
@@ -155,7 +138,7 @@ abstract class Content implements CacheableInterface
     }
 
     /**
-     * @param string $content
+     * @param ?string $content
      *
      * @return $this
      */
@@ -335,7 +318,7 @@ abstract class Content implements CacheableInterface
     }
 
     /**
-     * @param User $author
+     * @param ?User $author
      *
      * @return $this
      */
